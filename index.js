@@ -1,16 +1,13 @@
 // prmmpts inquirer
 // TODO: Include packages needed for this application
 const inquirer = require('inquirer');
-const generateMarkdown = require("./utils/generateMarkdown.js");
+const path = require('path');
 const fs = require("fs");
+const Employee = require('./lib/Employee.js');
+const Engineer = require('./lib/Engineer.js')
+const Intern = require('./lib/Intern.js')
+const Manager = require('./lib/Manager.js')
 
-// TODO: Create a function to write README file
-function writeToFile(data) {
-    fs.writeFile('README.md', data, (err) =>
-        err ? console.log(err) : console.log('Successfully created index.html!')
-
-    );
-}
 
 // TODO: Create a function to initialize app
 function init() {
@@ -19,73 +16,104 @@ function init() {
         .prompt([
             {
                 type: 'input',
-                message: 'Please enter name.',
+                message: 'Please enter Manager name.',
                 name: 'name',
             },
 
             {
                 type: 'input',
-                message: 'Please enter id.',
+                message: 'Please enter Manager id.',
                 name: 'id',
             },
 
             {
                 type: 'input',
-                message: 'Please enter email address.',
+                message: 'Please enter Manager email address.',
                 name: 'email',
             },
 
             {
+                type: 'input',
+                message: 'Please enter office phone number.',
+                name: 'officeNumber',
+            },
+
+            {
                 type: 'list',
-                message: 'Please choose employee role.',
+                message: 'Would you like to add a new employee?',
                 name: 'role',
-                choices: ["Employee", "Engineer", "Intern", "Manager", "Exit"],
-            }
-      {
-
-
-        // Intern 
-        {
-            type: 'input',
-            message: 'Please enter school.',
-            name: 'school',
-        },
-    
-        // Engineer
-        {
-            type: 'input',
-            message: 'Please enter Github email.',
-            name: 'github',
-        },
-
-        // Manager
-        {
-            type: 'input',
-            message: 'Please enter office phone number.',
-            name: 'officeNumber',
-        },
-
+                choices: ["Engineer", "Intern", "Exit"],
+            }])
 
         .then((response) => {
-            console.log(response.name);
-            console.log(response.id);
-            console.log(response.email);
-            console.log(response.role);
-            console.log(response.school);
-            console.log(response.github);
-            console.log(response.officeNumber);
+            console.log(response)
+            if (response.role === "Exit") { return }
+            else if (response.role === "Engineer") {
+                inquirer.prompt([
+                    {
+                        type: 'input',
+                        message: 'Please enter Eng name.',
+                        name: 'name',
+                    },
 
-            writeToFile(generateMarkdown(response))
-        });
-}
+                    {
+                        type: 'input',
+                        message: 'Please enter Eng id.',
+                        name: 'id',
+                    },
 
-// Function call to initialize app
-init();
+                    {
+                        type: 'input',
+                        message: 'Please enter Eng email address.',
+                        name: 'email',
+                    },
+
+                    {
+                        type: 'input',
+                        message: 'Please enter Eng Github email.',
+                        name: 'github',
+                    }])
+
+                .then((engineerResponse) => {
+                    console.log(engineerResponse)
+                }
+                )
+            }
+            else if (response.role === "Intern") {
+                inquirer.prompt([
+                    {
+                        type: 'input',
+                        message: 'Please enter Int name.',
+                        name: 'name',
+                    },
+
+                    {
+                        type: 'input',
+                        message: 'Please enter Int id.',
+                        name: 'id',
+                    },
+
+                    {
+                        type: 'input',
+                        message: 'Please enter Int email address.',
+                        name: 'email',
+                    },
+
+                    {
+                        type: 'input',
+                        message: 'Please enter Int school.',
+                        name: 'school',
+                    },
+
+                ]).then((internResponse) => {
+                    console.log(internResponse)
+                }
+                )
+            }
+        }
 
 
-// create manager
-// create intern or engin or quit?
-// intern questions
-// engineer questions
 
-// final function creating templates
+            // Function call to initialize app
+            , init()
+
